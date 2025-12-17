@@ -27,14 +27,14 @@ def main() -> None:
                 running = False
 
         screen.fill("black")
-        
+
         player.update(dt)
-        
+
         player.draw(screen)
-        
+
         pygame.display.flip()
 
-        dt += clock.tick(FPS)
+        dt = clock.tick(FPS) / 1000
 
 
 if __name__ == "__main__":
