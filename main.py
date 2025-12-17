@@ -2,7 +2,7 @@ import pygame
 from typing import Any
 from player import Player
 from logger import log_state
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 
 
 def main() -> None:
@@ -27,10 +27,14 @@ def main() -> None:
                 running = False
 
         screen.fill("black")
+        
+        player.update(dt)
+        
         player.draw(screen)
+        
         pygame.display.flip()
 
-        dt += clock.tick(60)
+        dt += clock.tick(FPS)
 
 
 if __name__ == "__main__":

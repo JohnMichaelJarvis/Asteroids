@@ -1,5 +1,5 @@
 import pygame
-from constants import PLAYER_RADIUS, LINE_WIDTH
+from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_TURN_SPEED
 from circleshape import CircleShape
 
 
@@ -17,11 +17,25 @@ class Player(CircleShape):
         offset_vec = pygame.Vector2(forward * self.radius)
 
         # 3. Calculate points using standard vector addition/subtraction
-        a = self.position + offset_vec
-        b = self.position - offset_vec - right
-        c = self.position - offset_vec + right
+        a: pygame.Vector2 = self.position + offset_vec
+        b: pygame.Vector2 = self.position - offset_vec - right
+        c: pygame.Vector2 = self.position - offset_vec + right
 
         return [a, b, c]
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface) -> None:
         pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
+
+    def rotate(self, dt: int):
+        self.rotation += PLAYER_TURN_SPEED * dt
+
+    def update(self, dt):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a]:
+            self.rotate(dt)
+        if keys[pygame.K_d]:
+            self.rotate(-dt)
+        
+
+
