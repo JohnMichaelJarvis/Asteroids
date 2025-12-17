@@ -8,14 +8,19 @@ class Player(CircleShape):
         super().__init__(x, y, radius=PLAYER_RADIUS)
         self.rotation: int = 0
 
-    def triangle(self) -> list[float]:
-        forward: float = pygame.Vector2(0, 1).rotate(self.rotation)
-        right: float = (
-            pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
-        )
-        a: float = self.position + forward * self.radius
-        b: float = self.position - forward * self.radius - right
-        c: float = self.position - forward * self.radius + right
+    def triangle(self) -> list[pygame.Vector2]:
+        # 1. Define direction vectors
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * (self.radius / 1.5)
+
+        # 2. Scale forward vector to the radius
+        offset_vec = pygame.Vector2(forward * self.radius)
+
+        # 3. Calculate points using standard vector addition/subtraction
+        a = self.position + offset_vec
+        b = self.position - offset_vec - right
+        c = self.position - offset_vec + right
+
         return [a, b, c]
 
     def draw(self, screen):
